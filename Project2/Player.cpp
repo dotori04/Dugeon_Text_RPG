@@ -34,5 +34,5 @@ void Player::PrintPlayerStatus() const
     cout << "HP : " << hp << " | " << "MP : " << mp << " | "
         << "ATK: " << power << " | " << "DEF: " << defense << endl;
     cout << "--------------------------------------------" << endl;
-
+     
 }

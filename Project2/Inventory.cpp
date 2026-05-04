@@ -1,6 +1,8 @@
 #include "Inventory.h"
 #include <iostream>
 
+using namespace std;
+
 bool Inventory::AddItem(const Item& item)
 {
     if (items.size() >= maxCount)
@@ -10,24 +12,24 @@ bool Inventory::AddItem(const Item& item)
     }
 
     items.push_back(item);
-    std::cout << "-> Saved to inventory." << std::endl;
+    cout << "-> Saved to inventory." << endl;
     return true;
 }
 
 void Inventory::PrintInventory() const
 {
-    std::cout << "[ Inventory (" << items.size() << "/" << maxCount << ") ]" << std::endl;
+    cout << "[ Inventory (" << items.size() << "/" << maxCount << ") ]" <<  endl;
 
     if (items.empty())
     {
-        std::cout << "No items." << std::endl;
+        cout << "No items." <<  endl;
         return;
     }
 
     int index = 1;
     for (const Item& item : items)
     {
-        std::cout << index << ". ";
+        cout << index << ". ";
         item.PrintInfo();
         ++index;
     }
