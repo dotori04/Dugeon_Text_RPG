@@ -4,14 +4,20 @@
 
 using namespace std;
 
-Monster::Monster(string name, int hp, int power, int defense, string dropItemName, int dropItemPrice)
+Monster::Monster(string name, int hp, int power, int defense, string dropItemName, int dropItemPrice,
+    const string asciiFrames[MONSTER_ASCII_FRAME_COUNT])
 {
-	this->name = name;
-	this->hp = hp;
-	this->power = power;
-	this->defense = defense;
-	this->dropItemName = dropItemName;
-	this->dropItemPrice = dropItemPrice;
+    this->name = name;
+    this->hp = hp;
+    this->power = power;
+    this->defense = defense;
+    this->dropItemName = dropItemName;
+    this->dropItemPrice = dropItemPrice;
+
+    for (int i = 0; i < MONSTER_ASCII_FRAME_COUNT; ++i)
+    {
+        this->asciiFrames[i] = asciiFrames[i];
+    }
 }
 
 Monster Monster::CreateRandomMonster()
@@ -27,7 +33,8 @@ Monster Monster::CreateRandomMonster()
         monsterInfo.power,
         monsterInfo.defense,
         monsterInfo.dropItemName,
-        monsterInfo.dropItemPrice
+        monsterInfo.dropItemPrice,
+        monsterInfo.asciiFrames
     );
 }
 
@@ -37,10 +44,25 @@ int Monster::GetPower() const { return power; }
 int Monster::GetDefense() const { return defense; }
 string Monster::GetDropItemName() const { return dropItemName; }
 int Monster::GetDropItemPrice() const { return dropItemPrice; }
-	
+
+string Monster::GetAsciiFrame(int frameIndex) const
+{
+    if (frameIndex < 0)
+    {
+        frameIndex = 0;
+    }
+
+    return asciiFrames[frameIndex % MONSTER_ASCII_FRAME_COUNT];
+}
+
+int Monster::GetAsciiFrameCount() const
+{
+    return MONSTER_ASCII_FRAME_COUNT;
+}
+
 void Monster::SetHP(int hp) { this->hp = hp; }
 void Monster::SetPower(int power) { this->power = power; }
-void Monster::SetDefense(int defense) { this->defense = defense; }	
+void Monster::SetDefense(int defense) { this->defense = defense; }
 
 void Monster::TakeDamage(int damage)
 {
@@ -59,11 +81,11 @@ void Monster::TakeDamage(int damage)
 
 void Monster::PrintStatus() const
 {
-    std::cout << "[Monster] " << name
+    cout << "[Monster] " << name
         << " HP: " << hp
         << " ATK: " << power
         << " DEF: " << defense
-        << std::endl;
+        << endl;
 }
 
 bool Monster::IsDead() const
