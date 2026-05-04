@@ -74,8 +74,6 @@ int main()
 
     printStatus(name, stat);
 
-    int HP_Potion = 5;
-    int MP_Potion = 5;
     cout << "* You received " << HP_Potion << " HP Potions and "
         << MP_Potion << " MP Potions." << endl;
     cout << "=============================================" << endl;

@@ -7,7 +7,6 @@ Player::Player(string name, int hp, int mp, int power, int defense)
 {
     this->name = name;
     this->job = "None";
-    this->level = 1;
     this->hp = hp;
     this->mp = mp;
     this->power = power;
