@@ -88,7 +88,7 @@ void AlchemyWorkshop::Open(Inventory<Item>& inventory)
             string potionName;
             cout << "Returned bottle potion name: ";
             getline(cin, potionName);
-            ReturnPotion(potionName);
+            ReturnPotion(potionName, inventory);
             break;
         }
         case 0:
@@ -230,7 +230,7 @@ bool AlchemyWorkshop::DispensePotion(const string& potionName)
     return true;
 }
 
-bool AlchemyWorkshop::ReturnPotion(const string& potionName)
+bool AlchemyWorkshop::ReturnPotion(const string& potionName, Inventory<Item>& inventory)
 {
     if (!HasRecipe(potionName))
     {
@@ -239,14 +239,34 @@ bool AlchemyWorkshop::ReturnPotion(const string& potionName)
     }
 
     int& stock = potionStock[potionName];
-    if (stock >= MAX_STOCK)
+    const string emptyBottleName = "Empty " + potionName;
+    int returnedCount = 0;
+
+    while (stock < MAX_STOCK && inventory.RemoveItemByName(emptyBottleName))
     {
-        cout << "Return failed: stock is already full." << endl;
+        ++stock;
+        ++returnedCount;
+    }
+
+    if (returnedCount == 0)
+    {
+        if (stock >= MAX_STOCK)
+        {
+            cout << "Return failed: stock is already full." << endl;
+        }
+        else
+        {
+            cout << "Return failed: empty bottle not found." << endl;
+        }
         return false;
     }
 
-    ++stock;
-    cout << "-> Return empty bottle (stock: " << stock << ")" << endl;
+    cout << "-> Returned " << returnedCount << " empty bottle";
+    if (returnedCount > 1)
+    {
+        cout << "s";
+    }
+    cout << " (stock: " << stock << ")" << endl;
     return true;
 }
 

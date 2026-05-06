@@ -205,6 +205,7 @@ bool Battle::UsePotion(Player& player, Inventory<Item>& inventory)
         cout << "* Used HP Potion." << endl;
         cout << player.GetName() << " HP : " << previousHP
             << " -> " << player.GetHP() << endl;
+		inventory.AddItem(Item{ "Empty "+itemName, 0});
         return true;
     }
 
@@ -217,6 +218,7 @@ bool Battle::UsePotion(Player& player, Inventory<Item>& inventory)
         cout << "* Used MP Potion." << endl;
         cout << player.GetName() << " MP : " << previousMP
             << " -> " << player.GetMP() << endl;
+        inventory.AddItem(Item{ "Empty " + itemName, 0 });
         return true;
     }
 
