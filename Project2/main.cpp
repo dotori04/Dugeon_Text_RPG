@@ -39,7 +39,10 @@ int main()
 	AlchemyWorkshop workshop;
     Player* player = nullptr;
     Inventory<Item> inventory;
-    //inventory.AddItem(Item{ "Herb", 5 }, false);
+    inventory.AddItem(Item{ "Herb", 5 }, false);
+    inventory.AddItem(Item{ "Clear Water", 3 }, false);
+    inventory.AddItem(Item{ "HP Potion", 30 }, false);
+    inventory.AddItem(Item{ "MP Potion", 30 }, false);
     string name;
     const int SIZE = 4;
     int stat[SIZE] = { 0 };
@@ -230,7 +233,7 @@ int main()
             break;
 		case 3:
             ClearConsole();
-            workshop.Open(inventory);
+            workshop.Open();
             break;
         case 4:
 			ClearConsole();
