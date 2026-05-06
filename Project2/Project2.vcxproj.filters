@@ -48,6 +48,9 @@
     <ClCompile Include="Potionrecipe.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Dungeon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -81,6 +84,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="AlchemyWorkshop.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungeon.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

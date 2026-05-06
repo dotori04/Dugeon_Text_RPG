@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cstdlib>
 #include "Player.h"
 #include "Warrior.h"
@@ -8,6 +8,7 @@
 #include "Monster.h"
 #include "Battle.h"
 #include "Inventory.h"
+#include "Dungeon.h"
 #include "Item.h"
 #include "AlchemyWorkshop.h"
 
@@ -205,15 +206,7 @@ int main()
         case 1:
         {
 			ClearConsole();
-            Monster monster = Monster::CreateRandomMonster();
-            Item droppedItem;
-
-            if (Battle::Start(*player, monster, droppedItem, inventory))
-            {
-                inventory.AddItem(droppedItem);
-             
-            }
-            else
+            if (!EnterDungeon(*player, inventory))
             {
                 isPlaying = false;
             }
@@ -230,7 +223,7 @@ int main()
             break;
 		case 3:
             ClearConsole();
-            workshop.Open(inventory);
+            workshop.Open();
             break;
         case 4:
 			ClearConsole();

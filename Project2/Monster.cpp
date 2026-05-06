@@ -1,4 +1,4 @@
-#include "Monster.h"
+﻿#include "Monster.h"
 #include <iostream>
 #include <random>
 
@@ -20,13 +20,13 @@ Monster::Monster(string name, int hp, int power, int defense, string dropItemNam
     }
 }
 
-Monster Monster::CreateRandomMonster()
+Monster Monster::CreateRandomMonster(int floor)
 {
-    static random_device randomDevice;
-    static mt19937 generator(randomDevice());
-    uniform_int_distribution<int> distribution(0, MONSTER_TABLE_COUNT - 1);
+    //static random_device randomDevice;/*
+    //static mt19937 generator(randomDevice());
+    //uniform_int_distribution<int> distribution(0, MONSTER_TABLE_COUNT - 1);*/
 
-    const MonsterInfo& monsterInfo = MONSTER_TABLE[distribution(generator)];
+    const MonsterInfo& monsterInfo = MONSTER_TABLE[floor];
     return Monster(
         monsterInfo.name,
         monsterInfo.hp,
@@ -35,6 +35,19 @@ Monster Monster::CreateRandomMonster()
         monsterInfo.dropItemName,
         monsterInfo.dropItemPrice,
         monsterInfo.asciiFrames
+    );
+}
+
+Monster Monster::CreateMonsterFromInfo(const MonsterInfo& info)
+{
+    return Monster(
+        info.name,
+        info.hp,
+        info.power,
+        info.defense,
+        info.dropItemName,
+        info.dropItemPrice,
+        info.asciiFrames
     );
 }
 

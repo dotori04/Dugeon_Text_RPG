@@ -1,4 +1,4 @@
-#include "Battle.h"
+﻿#include "Battle.h"
 #include "Player.h"
 #include "Monster.h"
 #include "Item.h"
@@ -55,9 +55,20 @@ namespace
     }
 }
 
-bool Battle::Start(Player& player, Monster& monster, Item& droppedItem, Inventory<Item>& inventory)
+bool Battle::Start(Player& player, Monster& monster, Item& droppedItem, Inventory<Item>& inventory,
+    const string& battleHeader)
 {
-    PlayMonsterAnimation(monster, "A monster appeared!");
+    const string appearTitle = battleHeader.empty()
+        ? "A monster appeared!"
+        : battleHeader + "\nA monster appeared!";
+
+    PlayMonsterAnimation(monster, appearTitle);
+
+    if (!battleHeader.empty())
+    {
+        cout << battleHeader << endl;
+    }
+
     cout << "[Battle Start!] " << player.GetName()
         << "(" << player.GetJob() << ") vs " << monster.GetName() << endl;
     PrintMonsterAscii(monster);
@@ -65,14 +76,14 @@ bool Battle::Start(Player& player, Monster& monster, Item& droppedItem, Inventor
 
     while (player.GetHP() > 0 && !monster.IsDead())
     {
-        PlayerTurn(player, monster, inventory);
+        PlayerTurn(player, monster, inventory, battleHeader);
 
         if (monster.IsDead())
         {
             break;
         }
 
-        MonsterTurn(player, monster);
+        MonsterTurn(player, monster, battleHeader);
     }
 
     if (player.GetHP() <= 0)
@@ -89,15 +100,17 @@ bool Battle::Start(Player& player, Monster& monster, Item& droppedItem, Inventor
     player.SetExp(30);
     cout << "EXP: " << player.GetExp() << " / " << player.GetMaxExp() << endl;
     player.levelUp();
+    
     return true;
 }
 
-void Battle::PlayerTurn(Player& player, Monster& monster, Inventory<Item>& inventory)
+void Battle::PlayerTurn(Player& player, Monster& monster, Inventory<Item>& inventory, const string& battleHeader)
 {
     bool isTurnFinished = false;
 
     while (!isTurnFinished)
     {
+		cout << monster.GetName() << " HP: " << monster.GetHP() << endl;
         cout << "-- - Player Turn-- -" << endl;
         cout << "1. Attack" << endl;
         cout << "2. Use Item" << endl;
@@ -119,7 +132,8 @@ void Battle::PlayerTurn(Player& player, Monster& monster, Inventory<Item>& inven
             cout.rdbuf(originalCoutBuffer);
 
             const string attackLog =
-                "-- - Player Turn-- -\n"
+                (battleHeader.empty() ? "" : battleHeader + "\n")
+                + "-- - Player Turn-- -\n"
                 "1. Attack\n"
                 "2. Use Item\n"
                 "Choose: 1\n\n"
@@ -139,10 +153,14 @@ void Battle::PlayerTurn(Player& player, Monster& monster, Inventory<Item>& inven
     }
 }
 
-void Battle::MonsterTurn(Player& player, Monster& monster)
+void Battle::MonsterTurn(Player& player, Monster& monster, const string& battleHeader)
 {
     cout << "-- - Monster Turn-- -" << endl;
-    PlayMonsterAnimation(monster, monster.GetName() + " attacks!");
+    const string attackTitle = battleHeader.empty()
+        ? monster.GetName() + " attacks!"
+        : battleHeader + "\n" + monster.GetName() + " attacks!";
+
+    PlayMonsterAnimation(monster, attackTitle);
 
     const int damage = CalculateDamage(monster.GetPower(), player.GetDefense());
     const int previousHP = player.GetHP();
