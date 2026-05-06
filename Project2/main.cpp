@@ -28,14 +28,27 @@ void printStatus(string name, int stat[])
     cout << "============================================" << endl;
 }
 
+void setPotion(int count, int* p_HPPotion, int* p_MPPotion)
+{
+    *p_HPPotion = count;
+	*p_MPPotion = count;
+}
+
 int main()
 {
 	AlchemyWorkshop workshop;
     Player* player = nullptr;
-    Inventory inventory;
+    Inventory<Item> inventory;
+    inventory.AddItem(Item{ "Herb", 5 }, false);
+    inventory.AddItem(Item{ "Clear Water", 3 }, false);
+    inventory.AddItem(Item{ "HP Potion", 30 }, false);
+    inventory.AddItem(Item{ "MP Potion", 30 }, false);
     string name;
     const int SIZE = 4;
     int stat[SIZE] = { 0 };
+    int HP_Potion;
+    int MP_Potion;
+	setPotion(5, &HP_Potion, &MP_Potion);
 
     cout << "============================================" << endl;
     cout << "    [ Dungeon Escape Text RPG ]" << endl;
@@ -74,8 +87,6 @@ int main()
 
     printStatus(name, stat);
 
-    int HP_Potion = 5;
-    int MP_Potion = 5;
     cout << "* You received " << HP_Potion << " HP Potions and "
         << MP_Potion << " MP Potions." << endl;
     cout << "=============================================" << endl;
@@ -100,8 +111,7 @@ int main()
             }
 
             stat[0] += 20;
-            HP_Potion--;
-            cout << "* HP increased by 20. (HP Potion left: " << HP_Potion << ")" << endl;
+            HP_Potion--;            cout << "* HP increased by 20. (HP Potion left: " << HP_Potion << ")" << endl;
             break;
         case 2:
             if (MP_Potion <= 0)
@@ -149,22 +159,22 @@ int main()
         switch (jobChoice)
         {
         case 1:
-            player = new Warrior(name, stat[0], stat[1], stat[2], stat[3]);
+            player = new Warrior(name, stat[0], stat[1], stat[2], stat[3], 0, 100, 1);
             cout << "* You have chosen the Warrior job!" << endl;
             jobselected = true;
             break;
         case 2:
-            player = new Magician(name, stat[0], stat[1], stat[2], stat[3]);
+            player = new Magician(name, stat[0], stat[1], stat[2], stat[3], 0, 100, 1);
             cout << "* You have chosen the Magician job!" << endl;
             jobselected = true;
             break;
         case 3:
-            player = new Rogue(name, stat[0], stat[1], stat[2], stat[3]);
+            player = new Rogue(name, stat[0], stat[1], stat[2], stat[3], 0, 100, 1);
             cout << "* You have chosen the Rogue job!" << endl;
             jobselected = true;
             break;
         case 4:
-            player = new Archer(name, stat[0], stat[1], stat[2], stat[3]);
+            player = new Archer(name, stat[0], stat[1], stat[2], stat[3], 0, 100, 1);
             cout << "* You have chosen the Archer job!" << endl;
             jobselected = true;
             break;
@@ -174,9 +184,8 @@ int main()
         }
     }
 
-    player->Attack();
     player->PrintPlayerStatus();
-    ClearConsole();
+    //ClearConsole();
 
     bool isPlaying = true;
     while (isPlaying)
@@ -202,7 +211,7 @@ int main()
             Monster monster = Monster::CreateRandomMonster();
             Item droppedItem;
 
-            if (Battle::Start(*player, monster, droppedItem))
+            if (Battle::Start(*player, monster, droppedItem, inventory))
             {
                 inventory.AddItem(droppedItem);
              
@@ -217,6 +226,8 @@ int main()
         }
         case 2:
 			ClearConsole();
+            inventory.InventorySort();
+            cout << "[ Inventory sorted by price ]" << endl;
             inventory.PrintInventory();
             cout << endl;
             break;
