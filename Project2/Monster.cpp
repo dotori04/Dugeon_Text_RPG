@@ -20,23 +20,23 @@ Monster::Monster(string name, int hp, int power, int defense, string dropItemNam
     }
 }
 
-Monster Monster::CreateRandomMonster(int floor)
-{
-    //static random_device randomDevice;/*
-    //static mt19937 generator(randomDevice());
-    //uniform_int_distribution<int> distribution(0, MONSTER_TABLE_COUNT - 1);*/
-
-    const MonsterInfo& monsterInfo = MONSTER_TABLE[floor];
-    return Monster(
-        monsterInfo.name,
-        monsterInfo.hp,
-        monsterInfo.power,
-        monsterInfo.defense,
-        monsterInfo.dropItemName,
-        monsterInfo.dropItemPrice,
-        monsterInfo.asciiFrames
-    );
-}
+//Monster Monster::CreateRandomMonster(int floor)
+//{
+//    //static random_device randomDevice;/*
+//    //static mt19937 generator(randomDevice());
+//    //uniform_int_distribution<int> distribution(0, MONSTER_TABLE_COUNT - 1);*/
+//
+//    const MonsterInfo& monsterInfo = MONSTER_TABLE[floor];
+//    return Monster(
+//        monsterInfo.name,
+//        monsterInfo.hp,
+//        monsterInfo.power,
+//        monsterInfo.defense,
+//        monsterInfo.dropItemName,
+//        monsterInfo.dropItemPrice,
+//        monsterInfo.asciiFrames
+//    );
+//}
 
 Monster Monster::CreateMonsterFromInfo(const MonsterInfo& info)
 {

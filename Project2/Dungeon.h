@@ -4,5 +4,11 @@
 #include "Inventory.h"
 #include "Item.h"
 
-bool EnterDungeon(Player& player, Inventory<Item>& inventory);
+enum class DungeonResult
+{
+    ReturnToMenu,
+    GameClear
+};
+
+DungeonResult EnterDungeon(Player& player, Inventory<Item>& inventory);
 
