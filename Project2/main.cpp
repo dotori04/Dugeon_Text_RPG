@@ -109,7 +109,8 @@ int main()
             }
 
             stat[0] += 20;
-            HP_Potion--;            cout << "* HP increased by 20. (HP Potion left: " << HP_Potion << ")" << endl;
+            HP_Potion--;           
+            cout << "* HP increased by 20. (HP Potion left: " << HP_Potion << ")" << endl;
             break;
         case 2:
             if (MP_Potion <= 0)
@@ -158,6 +159,7 @@ int main()
         {
         case 1:
             player = new Warrior(name, stat[0], stat[1], stat[2], stat[3], 0, 100, 1);
+			//                         hp       mp       atk      def      xp Mxp lev
             cout << "* You have chosen the Warrior job!" << endl;
             jobselected = true;
             break;
@@ -183,7 +185,6 @@ int main()
     }
 
     player->PrintPlayerStatus();
-    //ClearConsole();
 
     bool isPlaying = true;
     while (isPlaying)
@@ -206,7 +207,7 @@ int main()
         case 1:
         {
 			ClearConsole();
-            if (!EnterDungeon(*player, inventory))
+            if (EnterDungeon(*player, inventory) == DungeonResult::GameClear) //EnterDugeon 함수먼저 실행 -> 반환 받은 값 비교
             {
                 isPlaying = false;
             }
@@ -221,9 +222,9 @@ int main()
             inventory.PrintInventory();
             cout << endl;
             break;
-		case 3:
+        case 3:
             ClearConsole();
-            workshop.Open();
+            workshop.Open(inventory);
             break;
         case 4:
 			ClearConsole();

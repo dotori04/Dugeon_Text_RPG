@@ -12,20 +12,27 @@
 
 using namespace std;
 
-
-void ClearConsole1()
-{
-    system("cls");
-}
 namespace
 {
+    void ClearConsole()
+    {
+        system("cls");
+    }
+
+    string BuildAnimationTitle(const string& battleHeader, const string& message)
+    {
+        return battleHeader.empty()
+            ? message
+            : battleHeader + "\n" + message;
+    }
+
     void PlayMonsterAnimation(const Monster& monster, const string& title)
     {
         const int playCount = monster.GetAsciiFrameCount() * 2;
 
         for (int i = 0; i < playCount; ++i)
         {
-            system("cls");
+            ClearConsole();
             cout << title << endl;
             cout << monster.GetAsciiFrame(i) << endl;
             cout << endl;
@@ -39,7 +46,7 @@ namespace
 
         for (int i = 0; i < playCount; ++i)
         {
-            system("cls");
+            ClearConsole();
             cout << battleLog;
             cout << endl;
             cout << monster.GetAsciiFrame(i) << endl;
@@ -58,11 +65,7 @@ namespace
 bool Battle::Start(Player& player, Monster& monster, Item& droppedItem, Inventory<Item>& inventory,
     const string& battleHeader)
 {
-    const string appearTitle = battleHeader.empty()
-        ? "A monster appeared!"
-        : battleHeader + "\nA monster appeared!";
-
-    PlayMonsterAnimation(monster, appearTitle);
+    PlayMonsterAnimation(monster, BuildAnimationTitle(battleHeader, "A monster appeared!"));
 
     if (!battleHeader.empty())
     {
@@ -156,11 +159,7 @@ void Battle::PlayerTurn(Player& player, Monster& monster, Inventory<Item>& inven
 void Battle::MonsterTurn(Player& player, Monster& monster, const string& battleHeader)
 {
     cout << "-- - Monster Turn-- -" << endl;
-    const string attackTitle = battleHeader.empty()
-        ? monster.GetName() + " attacks!"
-        : battleHeader + "\n" + monster.GetName() + " attacks!";
-
-    PlayMonsterAnimation(monster, attackTitle);
+    PlayMonsterAnimation(monster, BuildAnimationTitle(battleHeader, monster.GetName() + " attacks!"));
 
     const int damage = CalculateDamage(monster.GetPower(), player.GetDefense());
     const int previousHP = player.GetHP();
