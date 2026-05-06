@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cstdlib>
 #include "Player.h"
 #include "Warrior.h"
@@ -8,6 +8,7 @@
 #include "Monster.h"
 #include "Battle.h"
 #include "Inventory.h"
+#include "Dungeon.h"
 #include "Item.h"
 #include "AlchemyWorkshop.h"
 
@@ -39,10 +40,7 @@ int main()
 	AlchemyWorkshop workshop;
     Player* player = nullptr;
     Inventory<Item> inventory;
-    inventory.AddItem(Item{ "Herb", 5 }, false);
-    inventory.AddItem(Item{ "Clear Water", 3 }, false);
-    inventory.AddItem(Item{ "HP Potion", 30 }, false);
-    inventory.AddItem(Item{ "MP Potion", 30 }, false);
+    //inventory.AddItem(Item{ "Herb", 5 }, false);
     string name;
     const int SIZE = 4;
     int stat[SIZE] = { 0 };
@@ -208,15 +206,7 @@ int main()
         case 1:
         {
 			ClearConsole();
-            Monster monster = Monster::CreateRandomMonster();
-            Item droppedItem;
-
-            if (Battle::Start(*player, monster, droppedItem, inventory))
-            {
-                inventory.AddItem(droppedItem);
-             
-            }
-            else
+            if (!EnterDungeon(*player, inventory))
             {
                 isPlaying = false;
             }

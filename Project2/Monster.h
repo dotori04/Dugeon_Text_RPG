@@ -12,12 +12,13 @@ struct MonsterInfo
     std::string dropItemName;
     int dropItemPrice;
     std::string asciiFrames[MONSTER_ASCII_FRAME_COUNT];
+    int floor;
 };
 
 static const MonsterInfo MONSTER_TABLE[] =
 {
     { 
-        "Slime", 50, 15, 5, "Slime Jelly", 30,
+        "Slime", 50, 10, 5, "Slime Jelly", 30,
         {
 R"(
       _______
@@ -35,6 +36,7 @@ R"(
 
    )"
         }
+    
     },
     //{ "Goblin", 70, 22, 8, "Goblin Tooth", 45 },
     //{ "Skeleton", 90, 28, 12, "Old Bone", 60 },
@@ -56,7 +58,28 @@ R"(        |||||||
        |  | |  |
        |  | |  |)"
         }
-    }
+    
+    },
+    {
+    "Boss: Giant Slime", 200, 35, 15, "Giant Slime Core", 100,
+        {
+R"(
+      _______
+    /         \
+   |   o   o   |
+   |     w     |
+    \_________/ )",
+R"(
+       _____
+      /     \
+     |  o o  |
+     |   v   |
+     |       |
+      \_____/
+
+   )"
+        }
+}
     //name hp atk def dropitem price asciiFrames
 };
 
@@ -75,8 +98,9 @@ protected:
 
 public:
     Monster(std::string name, int hp, int power, int defense, std::string dropItemName, int dropItemPrice,
-        const std::string asciiFrames[MONSTER_ASCII_FRAME_COUNT]);
-    static Monster CreateRandomMonster();
+        const std::string asciiFrames[MONSTER_ASCII_FRAME_COUNT]);  
+    static Monster CreateRandomMonster(int floor);
+    static Monster CreateMonsterFromInfo(const MonsterInfo& info);
 
     std::string GetName() const;
     int GetHP() const;
