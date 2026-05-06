@@ -18,7 +18,7 @@ private:
     bool HasRecipe(const std::string& potionName) const;
     void AddRecipe();
     bool DispensePotion(const std::string& potionName);
-    bool ReturnPotion(const std::string& potionName);
+    bool ReturnPotion(const std::string& potionName, Inventory<Item>& inventory);
 
 public:
     AlchemyWorkshop();
